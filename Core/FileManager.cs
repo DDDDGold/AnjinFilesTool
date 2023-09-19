@@ -1,5 +1,4 @@
 ﻿using AnjinFilesTool.Event.Events;
-using System.Diagnostics;
 
 namespace AnjinFilesTool.Core
 {
@@ -22,7 +21,7 @@ namespace AnjinFilesTool.Core
 
         public void AddFilter(Predicate<FileSystemInfo> filter)
         {
-            if(!_filters.Contains(filter))
+            if (!_filters.Contains(filter))
             {
                 _filters.Add(filter);
                 ResetFiles();
@@ -43,13 +42,13 @@ namespace AnjinFilesTool.Core
             bool changed = false;
             foreach (var file in _files)
             {
-                if(file.Name.Contains(keyword))
+                if (file.Name.Contains(keyword))
                 {
                     file.Name = file.Name.Replace(keyword, value);
                     changed = true;
                 }
             }
-            if(changed)
+            if (changed)
             {
                 SetChanged();
             }
@@ -79,24 +78,24 @@ namespace AnjinFilesTool.Core
         public void Save()
         {
             DirectoryInfo temp = CreateSubDic();
-            string path = Path+ (Path.EndsWith("\\") ? temp.Name : "\\" + temp.Name)+ "\\";
+            string path = Path + (Path.EndsWith("\\") ? temp.Name : "\\" + temp.Name) + "\\";
             foreach (var file in _files)
             {
-                if(file.Name!=file.File.Name)
+                if (file.Name != file.File.Name)
                 {
                     string newPath = path + file.Name;
-                    if(file.File is DirectoryInfo)
+                    if (file.File is DirectoryInfo)
                     {
                         Directory.Move(file.File.FullName, newPath);
                     }
-                    else if(file.File is FileInfo)
+                    else if (file.File is FileInfo)
                     {
                         File.Move(file.File.FullName, newPath);
                     }
                 }
             }
-            path = Path.EndsWith("\\") ? Path : Path+"\\";
-            foreach (var file in temp.GetFileSystemInfos()) 
+            path = Path.EndsWith("\\") ? Path : Path + "\\";
+            foreach (var file in temp.GetFileSystemInfos())
             {
                 string newPath = path + file.Name;
                 if (file is DirectoryInfo)

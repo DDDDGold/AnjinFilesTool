@@ -1,5 +1,3 @@
-using AnjinFilesTool.Core;
-using AnjinFilesTool.Event;
 
 namespace AnjinApplication
 {

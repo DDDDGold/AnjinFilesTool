@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using static AnjinFilesTool.Event.Events.FilePathResetEvent;
+﻿using static AnjinFilesTool.Event.Events.FilePathResetEvent;
 
 namespace AnjinFilesTool.Event.Events
 {
     public class FilePathResetEvent : Event<FilePathResetEvent>
     {
-        public string Path {  get; private set; }
+        public string Path { get; private set; }
         public ActionResult Result { get; private set; }
         public static EventHandler<FilePathResetEvent> EventHandler { get; } = new EventHandler<FilePathResetEvent>();
 
@@ -30,7 +24,7 @@ namespace AnjinFilesTool.Event.Events
 
         }
 
-       
+
     }
     public static class ActionResultExtention
     {

@@ -1,12 +1,9 @@
 
 
 using AnjinFilesTool.Core;
-using AnjinFilesTool.Event;
 using AnjinFilesTool.Event.Events;
 using AnjinFilesTool.Forms;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
 namespace AnjinApplication
 {
