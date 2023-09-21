@@ -12,6 +12,8 @@
     <Product>AnjinFilesTool</Product>
     <Company>AnjinHouse</Company>
     <ApplicationIcon>icon.ico</ApplicationIcon>
+    <PublishTrimmed>true</PublishTrimmed>
+    <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

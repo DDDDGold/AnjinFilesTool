@@ -1,22 +1,20 @@
 ﻿
 namespace AnjinFilesTool.Event
 {
+    public delegate void Listener<E>(E e) where E : Event<E>;
     public class EventHandler<E> where E : Event<E>
     {
-        private List<Action<E>> _listener = new List<Action<E>>();
+        private event Listener<E> _listener = e => { };
 
 
-        public void RegisterListener(Action<E> listener)
+        public void RegisterListener(Listener<E> listener)
         {
-            _listener.Add(listener);
+            _listener += listener;
         }
 
         public void CallEvent(E e)
         {
-            foreach (var item in _listener)
-            {
-                item.Invoke(e);
-            }
+            _listener(e);
         }
     }
 }
