@@ -49,6 +49,7 @@
             filterMenu = new ToolStripMenuItem();
             skipFolderMenuItem = new ToolStripMenuItem();
             menuBar = new MenuStrip();
+            searchTypeBox = new ToolStripComboBox();
             rightClickMenu = new ContextMenuStrip(components);
             renameMenuItem = new ToolStripMenuItem();
             openByExplorer = new ToolStripMenuItem();
@@ -168,7 +169,7 @@
             // 
             fileMenu.DropDownItems.AddRange(new ToolStripItem[] { openMenuItem, saveMenuItem });
             fileMenu.Name = "fileMenu";
-            fileMenu.Size = new Size(82, 38);
+            fileMenu.Size = new Size(82, 39);
             fileMenu.Text = "文件";
             // 
             // openMenuItem
@@ -191,7 +192,7 @@
             // 
             operationMenu.DropDownItems.AddRange(new ToolStripItem[] { noneMenuItem, refreshMenuItem });
             operationMenu.Name = "operationMenu";
-            operationMenu.Size = new Size(82, 38);
+            operationMenu.Size = new Size(82, 39);
             operationMenu.Text = "操作";
             // 
             // noneMenuItem
@@ -212,25 +213,33 @@
             // 
             filterMenu.DropDownItems.AddRange(new ToolStripItem[] { skipFolderMenuItem });
             filterMenu.Name = "filterMenu";
-            filterMenu.Size = new Size(106, 38);
+            filterMenu.Size = new Size(106, 39);
             filterMenu.Text = "过滤器";
             // 
             // skipFolderMenuItem
             // 
             skipFolderMenuItem.Name = "skipFolderMenuItem";
-            skipFolderMenuItem.Size = new Size(359, 44);
+            skipFolderMenuItem.Size = new Size(291, 44);
             skipFolderMenuItem.Text = "不显示文件夹";
             skipFolderMenuItem.Click += skipFolderMenuItem_Click;
             // 
             // menuBar
             // 
             menuBar.ImageScalingSize = new Size(32, 32);
-            menuBar.Items.AddRange(new ToolStripItem[] { fileMenu, operationMenu, filterMenu });
+            menuBar.Items.AddRange(new ToolStripItem[] { fileMenu, operationMenu, filterMenu, searchTypeBox });
             menuBar.Location = new Point(0, 0);
             menuBar.Name = "menuBar";
-            menuBar.Size = new Size(650, 42);
+            menuBar.Size = new Size(650, 43);
             menuBar.TabIndex = 2;
             menuBar.Text = "menuStrip1";
+            // 
+            // searchTypeBox
+            // 
+            searchTypeBox.Items.AddRange(new object[] { "文本匹配", "正则表达式匹配" });
+            searchTypeBox.Name = "searchTypeBox";
+            searchTypeBox.Size = new Size(121, 39);
+            searchTypeBox.Text = "请选择匹配模式";
+            searchTypeBox.SelectedIndexChanged += searchTypeBox_SelectedIndexChanged;
             // 
             // rightClickMenu
             // 
@@ -307,5 +316,6 @@
         private ToolStripMenuItem renameMenuItem;
         private ToolStripMenuItem openByExplorer;
         private ToolStripMenuItem refreshMenuItem;
+        private ToolStripComboBox searchTypeBox;
     }
 }

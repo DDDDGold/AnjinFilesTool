@@ -11,9 +11,11 @@
     <Authors>Anjin</Authors>
     <Product>AnjinFilesTool</Product>
     <Company>AnjinHouse</Company>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
     <PublishTrimmed>true</PublishTrimmed>
     <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <CustomResourceTypesSupport>true</CustomResourceTypesSupport>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -4,6 +4,7 @@ using AnjinFilesTool.Core;
 using AnjinFilesTool.Event.Events;
 using AnjinFilesTool.Forms;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace AnjinApplication
 {
@@ -30,14 +31,40 @@ namespace AnjinApplication
         {
             FilePathResetEvent.EventHandler.RegisterListener(OnPathReset);
             FilesChangedEvent.EventHandler.RegisterListener(OnFilesChanged);
+            FunctionProcessEvent.EventHandler.RegisterListener(OnFunctionProcess);
+            FunctionDoneEvent.EventHandler.RegisterListener(OnFunctionDone);
             srcText.Text = _fileManager.Path;
             warningText.Text = null;
             foreach (var item in _fileManager.Files)
             {
                 fileListBox.Items.Add(item.Name);
             }
+            searchTypeBox.SelectedIndex = 0;
         }
 
+
+        private void OnFunctionProcess(FunctionProcessEvent e)
+        {
+            stateText.Text = e.Info;
+            processBar.Value = (int)(e.CurrentProgress * processBar.Maximum);
+        }
+
+        private void OnFunctionDone(FunctionDoneEvent e)
+        {
+            processBar.Value = 0;
+            if (e.Result == FunctionDoneEvent.FunctionResult.Success)
+            {
+                stateText.Text = "操作成功";
+            }
+            else
+            {
+                stateText.Text = "操作未成功";
+                StringBuilder sb = new StringBuilder();
+                sb.Append("发生了以下错误:");
+                e.Errors.ForEach(s => sb.Append('\n').Append(s));
+                MessageBox.Show(sb.ToString());
+            }
+        }
         private void OnFilesChanged(FilesChangedEvent e)
         {
             if (e.IsChanged)
@@ -98,7 +125,7 @@ namespace AnjinApplication
                 fileListBox.ClearSelected();
                 for (int i = 0; i < fileListBox.Items.Count; i++)
                 {
-                    if ((fileListBox.Items[i].ToString() ?? "").Contains(match))
+                    if (_fileManager.IsMatch(fileListBox.Items[i].ToString() ?? "", match))
                     {
                         fileListBox.SetSelected(i, true);
                     }
@@ -228,6 +255,17 @@ namespace AnjinApplication
                 }
                 refresh();
             }
+        }
+
+        private void searchTypeBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var type = SearchType.STRING;
+            switch (searchTypeBox.SelectedIndex)
+            {
+                case 0: type = SearchType.STRING; break;
+                case 1: type = SearchType.REGEX; break;
+            }
+            _fileManager.SearchType = type;
         }
     }
 }

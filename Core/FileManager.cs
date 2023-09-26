@@ -1,4 +1,5 @@
 ﻿using AnjinFilesTool.Event.Events;
+using System.Text.RegularExpressions;
 
 namespace AnjinFilesTool.Core
 {
@@ -12,6 +13,7 @@ namespace AnjinFilesTool.Core
         private List<FileProxy> _files = new List<FileProxy>();
         public List<FileProxy> Files { get { return _files; } }
         public bool Changed { get; private set; } = false;
+        public SearchType SearchType { get; set; } = SearchType.STRING;
 
         public FileManager()
         {
@@ -42,16 +44,59 @@ namespace AnjinFilesTool.Core
             bool changed = false;
             foreach (var file in _files)
             {
-                if (file.Name.Contains(keyword))
-                {
-                    file.Name = file.Name.Replace(keyword, value);
+                if (replace(file, keyword, value))
                     changed = true;
-                }
             }
             if (changed)
             {
                 SetChanged();
             }
+        }
+
+        public bool IsMatch(string name, string keyword)
+        {
+            if (SearchType == SearchType.STRING)
+            {
+                return name.Contains(keyword);
+            }
+            else if (SearchType == SearchType.REGEX)
+            {
+                return Regex.Match(name, keyword).Success;
+            }
+            return false;
+        }
+
+        private bool replace(FileProxy file, string keyword, string value)
+        {
+            if (SearchType == SearchType.STRING)
+            {
+                if (file.Name.Contains(keyword))
+                {
+                    file.Name = file.Name.Replace(keyword, value);
+                    return true;
+                }
+            }
+            else if (SearchType == SearchType.REGEX)
+            {
+                MatchCollection result = Regex.Matches(file.Name, keyword);
+                if (result.Count > 0)
+                {
+                    string name = file.Name;
+                    foreach (Match match in result)
+                    {
+                        GroupCollection groups = match.Groups;
+                        string[] args = new string[groups.Count];
+                        for (int i = 0; i < groups.Count; i++)
+                        {
+                            args[i] = groups[i].Value;
+                        }
+                        name = name.Replace(match.Value, string.Format(value, args));
+                    }
+                    file.Name = name;
+                }
+                return result.Count > 0;
+            }
+            return false;
         }
 
         public void SetFileName(int index, string name)
